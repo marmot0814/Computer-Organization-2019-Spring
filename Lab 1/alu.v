@@ -5,7 +5,7 @@ module alu(
     src1,           //  32 bits source 1            (input)
     src2,           //  32 bits source 2            (input)
     ALU_control,    //  4 bits ALU control input    (input)
-	bonus_control,  //  3 bits bonus control input  (input) 
+    bonus_control,  //  3 bits bonus control input  (input) 
     result,         //  32 bits result              (output)
     zero,           //  1 bit when the output is 0, zero must be set (output)
     cout,           //  1 bit carry out             (output)
