@@ -1,0 +1,5 @@
+#! /bin/bash
+
+iverilog -o bonus.vvp testbench.v ../alu.v ../alu_top.v ../compare.v ../full_adder.v ../half_adder.v
+vvp bonus.vvp
+rm bonus.vvp
