@@ -29,7 +29,7 @@ wire    [32-1:0]    set;
 wire                zero;
 wire                cout;
 wire                overflow;
-wire    [32-1:0] carry;
+wire    [32-1:0]    carry;
 
 generate
     genvar i;
