@@ -34,7 +34,7 @@ wire    [32-1:0]    carry;
 generate
     genvar i;
     for (i = 0 ; i < 32 ; i = i + 1) begin
-        alu_top alu(
+        alu_1bit alu(
             src1[i], 
             src2[i], 
             (i == 0 ? set[31] ^ overflow : 1'b0), 
