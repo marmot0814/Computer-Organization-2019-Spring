@@ -18,7 +18,7 @@ module Reg_File(
     RegWrite_i,
     RSdata_o,
     RTdata_o
-    );
+);
           
 //I/O ports
 input           clk_i;
