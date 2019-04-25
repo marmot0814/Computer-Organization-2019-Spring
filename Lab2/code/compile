@@ -1,0 +1,3 @@
+#! /bin/bash
+
+iverilog -o test.vvp Test_Bench.v Simple_Single_CPU.v ProgramCounter.v Adder.v Instr_Memory.v MUX_2to1.v Reg_File.v Decoder.v ALU_Ctrl.v ALU.v Shift_Left_Two_32.v Sign_Extend.v
