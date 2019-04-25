@@ -10,6 +10,7 @@
 //--------------------------------------------------------------------------------
 
 module ALU(
+    rst_i,
     src1_i,
     src2_i,
     ctrl_i,
@@ -18,6 +19,7 @@ module ALU(
 );
      
 //I/O ports
+input               rst_i;
 input   [32-1:0]    src1_i;
 input   [32-1:0]    src2_i;
 input   [4-1:0]     ctrl_i;
@@ -31,7 +33,7 @@ wire                zero_o;
 
 //Parameter
 alu alu(
-    .rst_n(1'b0),
+    .rst_n(rst_i),
     .src1(src1_i),
     .src2(src2_i),
     .ALU_control(ctrl_i),
