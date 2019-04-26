@@ -39,7 +39,7 @@ alu alu(
     .ALU_control(ctrl_i),
     .bonus_control(3'b000),
     .result(result_o),
-    .zero(zero),
+    .zero(zero_o),
     .cout(),
     .overflow()
 );
