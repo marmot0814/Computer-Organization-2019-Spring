@@ -61,7 +61,7 @@ always @(*) begin
         4'b0101: result_o <= src2_i << 16;          // lui
         4'b1000: result_o <= $signed(src2_i) >>> src1_i;      // sra
         4'b1001: result_o <= $signed(src2_i) >>> src1_i;      // srav
-        default: result_o <= 0;
+        default: result_o <= 32'bx;
     endcase
     zero_o <= (result_o == 0);
 end

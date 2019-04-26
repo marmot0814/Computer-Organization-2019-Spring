@@ -65,14 +65,14 @@ always @(*) begin
            RegWrite_o   = 1'b0;
            ALU_op_o     = 3'b011;
            ALUSrc_2_o   = 1'b0;
-           RegDst_o     = 1'bx;
+           RegDst_o     = 1'b0;
            Branch_o     = 1'b1;
         end
         6'b000101: begin     // bne
             RegWrite_o  = 1'b0;
             ALU_op_o    = 3'b100;
             ALUSrc_2_o  = 1'b0;
-            RegDst_o    = 1'bx;
+            RegDst_o    = 1'b0;
             Branch_o    = 1'b1;
         end
         6'b001111: begin     // lui
@@ -86,6 +86,13 @@ always @(*) begin
             RegWrite_o  = 1'b1;
             ALU_op_o    = 3'b001;
             ALUSrc_2_o  = 1'b1;
+            RegDst_o    = 1'b0;
+            Branch_o    = 1'b0;
+        end
+        default: begin
+            RegWrite_o  = 1'b0;
+            ALU_op_o    = 3'b000;
+            ALUSrc_2_o  = 1'b0;
             RegDst_o    = 1'b0;
             Branch_o    = 1'b0;
         end

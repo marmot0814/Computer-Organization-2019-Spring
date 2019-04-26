@@ -69,37 +69,42 @@ always @(*) begin
                 6'b100100:  begin                   // and
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b0000;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b100101:  begin                   // or
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b0001;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b100001:  begin                   // addu
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b0010;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b100011:  begin                   // subu
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b0110;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b101010:  begin                   // slt
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b0111;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b000011: begin                    // sra
                     ALUSrc_1_o  = 1'b1;
                     ALUCtrl_o   = 4'b1000;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
                 end
                 6'b000111: begin                    // srav
                     ALUSrc_1_o  = 1'b0;
                     ALUCtrl_o   = 4'b1001;
-                    Extend_o    = 1'bx;
+                    Extend_o    = 1'b0;
+                end
+                default: begin
+                    ALUSrc_1_o  = 1'b0;
+                    ALUCtrl_o   = 4'b0000;
+                    Extend_o    = 1'b0;
                 end
             endcase
         end
@@ -132,6 +137,11 @@ always @(*) begin
             ALUSrc_1_o  = 1'b0;
             ALUCtrl_o   = {1'b0, ALUOp_i};
             Extend_o    = 1'b1;
+        end
+        default: begin
+            ALUSrc_1_o  = 1'b0;
+            ALUCtrl_o   = 4'b0000;
+            Extend_o    = 1'b0;        
         end
     endcase
 end
