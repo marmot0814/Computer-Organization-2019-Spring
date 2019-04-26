@@ -44,6 +44,7 @@ wire    [32-1:0]    SE_32bit;
 wire    [32-1:0]    SE_32bit_shifted;
 
 wire    [4-1:0]     ALUCtrl;
+wire                Extend;
 
 //Greate componentes
 ProgramCounter PC(
@@ -96,10 +97,12 @@ Decoder Decoder(
 ALU_Ctrl AC(
     .funct_i(instr[5:0]),
     .ALUOp_i(ALU_op),
-    .ALUCtrl_o(ALUCtrl)
+    .ALUCtrl_o(ALUCtrl),
+    .Extend_o(Extend)
 );
     
 Sign_Extend SE(
+    .Extend_i(Extend),
     .data_i(instr[16-1:0]),
     .data_o(SE_32bit)
 );
@@ -112,7 +115,6 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc(
 );  
         
 ALU ALU(
-    .rst_i(rst_i),
     .src1_i(RSdata),
     .src2_i(ALU_src2),
     .ctrl_i(ALUCtrl),

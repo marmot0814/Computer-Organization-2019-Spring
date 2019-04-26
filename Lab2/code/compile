@@ -1,3 +1,3 @@
 #! /bin/bash
 
-iverilog Test_Bench.v Simple_Single_CPU.v ProgramCounter.v Adder.v Instr_Memory.v MUX_2to1.v Reg_File.v Decoder.v ALU_Ctrl.v ALU/ALU.v ALU/alu.v ALU/alu_1bit.v ALU/compare.v ALU/full_adder.v ALU/half_adder.v Shift_Left_Two_32.v Sign_Extend.v
+iverilog Test_Bench.v Simple_Single_CPU.v ProgramCounter.v Adder.v Instr_Memory.v MUX_2to1.v Reg_File.v Decoder.v ALU_Ctrl.v ALU.v Shift_Left_Two_32.v Sign_Extend.v

@@ -38,4 +38,51 @@ reg             Branch_o;
 
 
 //Main function
+always @(*) begin
+    case (instr_op_i)
+        6'b000000: begin    // R-Type
+            RegWrite_o  = 1'b1;
+            ALU_op_o    = 3'b000;
+            ALUSrc_o    = 1'b0;
+            RegDst_o    = 1'b1;
+            Branch_o    = 1'b0;
+        end
+        6'b001000: begin    // addi
+            RegWrite_o  = 1'b1;
+            ALU_op_o    = 3'b010;
+            ALUSrc_o    = 1'b1;
+            RegDst_o    = 1'b0;
+            Branch_o    = 1'b0;
+        end
+        6'b001011: begin    // sltiu
+            RegWrite_o  = 1'b1;
+            ALU_op_o    = 3'b111;
+            ALUSrc_o    = 1'b1;
+            RegDst_o    = 1'b0;
+            Branch_o    = 1'b0;
+        end
+        6'b000100: begin    // beq
+           RegWrite_o   = 1'b0;
+           ALU_op_o     = 3'b011;
+           ALUSrc_o     = 1'b0;
+           RegDst_o     = 1'bx;
+           Branch_o     = 1'b1;
+        end
+        6'b000101: begin     // bne
+            RegWrite_o  = 1'b0;
+            ALU_op_o    = 3'b100;
+            ALUSrc_o    = 1'b0;
+            RegDst_o    = 1'bx;
+            Branch_o    = 1'b1;
+        end
+        6'b001111: begin     // lui
+            RegWrite_o  = 1'b1;
+            ALU_op_o    = 3'b101;
+            ALUSrc_o    = 1'b1;
+            RegDst_o    = 1'bx;
+            Branch_o    = 1'b0;
+        end
+    endcase
+end
+
 endmodule
