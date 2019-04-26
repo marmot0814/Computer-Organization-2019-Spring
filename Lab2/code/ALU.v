@@ -58,7 +58,9 @@ always @(*) begin
         4'b0111: result_o <= src1_i < src2_i;       // slt
         4'b0011: result_o <= src1_i != src2_i;      // beq
         4'b0100: result_o <= src1_i == src2_i;      // bnq
-        4'b0101: result_o <= {src2_i << 16, 16'b0}; // lui
+        4'b0101: result_o <= src2_i << 16;          // lui
+        4'b1000: result_o <= $signed(src2_i) >>> src1_i;      // sra
+        4'b1001: result_o <= $signed(src2_i) >>> src1_i;      // srav
         default: result_o <= 0;
     endcase
     zero_o <= (result_o == 0);

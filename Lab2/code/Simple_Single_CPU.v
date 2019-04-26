@@ -28,12 +28,14 @@ wire    [32-1:0]    instr;
 
 wire                RegWrite;
 wire    [3-1:0]     ALU_op;
-wire                ALUSrc;
+wire                ALUSrc_1;
+wire                ALUSrc_2;
 wire                RegDst;
 wire                Branch;
 
 wire                ALU_zero;
 wire    [32-1:0]    ALU_result;
+wire    [32-1:0]    ALU_src1;
 wire    [32-1:0]    ALU_src2;
 
 wire    [5-1:0]     RDaddr;
@@ -45,6 +47,9 @@ wire    [32-1:0]    SE_32bit_shifted;
 
 wire    [4-1:0]     ALUCtrl;
 wire                Extend;
+
+wire [32-1:0] shamt;
+assign shamt = {27'b0, instr[10:6]};
 
 //Greate componentes
 ProgramCounter PC(
@@ -80,16 +85,15 @@ Reg_File RF(
     .RDaddr_i(RDaddr),
     .RDdata_i(ALU_result),
     .RegWrite_i (RegWrite),
-    .RSdata_o(RSdata) ,  
+    .RSdata_o(RSdata),  
     .RTdata_o(RTdata)
 );
 
-    
 Decoder Decoder(
     .instr_op_i(instr[31:26]),
     .RegWrite_o(RegWrite),
     .ALU_op_o(ALU_op),
-    .ALUSrc_o(ALUSrc),
+    .ALUSrc_2_o(ALUSrc_2),
     .RegDst_o(RegDst),
     .Branch_o(Branch)
 );
@@ -97,6 +101,7 @@ Decoder Decoder(
 ALU_Ctrl AC(
     .funct_i(instr[5:0]),
     .ALUOp_i(ALU_op),
+    .ALUSrc_1_o(ALUSrc_1),
     .ALUCtrl_o(ALUCtrl),
     .Extend_o(Extend)
 );
@@ -107,15 +112,22 @@ Sign_Extend SE(
     .data_o(SE_32bit)
 );
 
-MUX_2to1 #(.size(32)) Mux_ALUSrc(
+MUX_2to1 #(.size(32)) Mux_ALUSrc_1(
+    .data0_i(RSdata),
+    .data1_i(shamt),
+    .select_i(ALUSrc_1),
+    .data_o(ALU_src1)
+);  
+
+MUX_2to1 #(.size(32)) Mux_ALUSrc_2(
     .data0_i(RTdata),
     .data1_i(SE_32bit),
-    .select_i(ALUSrc),
+    .select_i(ALUSrc_2),
     .data_o(ALU_src2)
 );  
         
 ALU ALU(
-    .src1_i(RSdata),
+    .src1_i(ALU_src1),
     .src2_i(ALU_src2),
     .ctrl_i(ALUCtrl),
     .result_o(ALU_result),
