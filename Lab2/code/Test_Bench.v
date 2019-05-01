@@ -33,10 +33,6 @@ always #(`CYCLE_TIME/2) CLK = ~CLK;
 initial  begin
 	$dumpfile("tb_wave.vcd");
 	$dumpvars(0, cpu);
-    for (i = 0 ; i < 32 ; i++)
-        $dumpvars(1, cpu.RF.Reg_File[i]);
-    for (i = 0 ; i < 32 ; i++)
-        $dumpvars(1, cpu.IM.Instr_Mem[i]);
 
     handle = $fopen("CO_P2_Result.txt");
 	CLK = 0;
