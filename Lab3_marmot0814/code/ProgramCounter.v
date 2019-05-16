@@ -9,7 +9,7 @@
 //Description: 
 //--------------------------------------------------------------------------------
 
-module ProgramCounter(
+module ProgramCounter (
     clk_i,
     rst_i,
     pc_in_i,
