@@ -47,7 +47,7 @@ assign RTdata_o = Reg_File[RTaddr_i] ;
 //Writing data when postive edge clk_i and RegWrite_i was set.
 always @( posedge rst_i or posedge clk_i  ) begin
     
-    if(RegJal_o)  Reg_File[31] = pc_Addro;
+    // if(RegJal_o)  Reg_File[31] = pc_Addro;
     if(rst_i == 0) begin
 	    Reg_File[0]  <= 0; Reg_File[1]  <= 0; Reg_File[2]  <= 0; Reg_File[3]  <= 0;
 	    Reg_File[4]  <= 0; Reg_File[5]  <= 0; Reg_File[6]  <= 0; Reg_File[7]  <= 0;
