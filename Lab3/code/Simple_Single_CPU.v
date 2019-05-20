@@ -81,19 +81,19 @@ MUX_2to1 #(.size(5)) Mux_Write_Reg(
         .select_i(RegDst_o),
         .data_o(data_M1)
         );
-/*MUX_2to1 #(.size(5)) Mux_isJal(
+MUX_2to1 #(.size(5)) Mux_isJal(
         .data0_i(data_M1),
         .data1_i(5'b11111),
         .select_i(RegJal_o),
         .data_o(data_M2)
-        );*/
+        );
 		
 Reg_File RF(
         .clk_i(clk_i),      
 	    .rst_i(rst_i) ,     
         .RSaddr_i(instr[25:21]) ,  
         .RTaddr_i(instr[20:16]) ,  
-        .RDaddr_i(data_M1) ,  
+        .RDaddr_i(data_M2) ,  
         .RDdata_i(Final_result2)  , 
         .RegWrite_i (RegWrite),
         .RSdata_o(RSdata_o) ,  
@@ -117,14 +117,14 @@ Decoder Decoder(
                 // .isJal(isJal),
                 .funct_i(instr[5:0]),
                 // .isJr(isJr),
-                .RegJal_o(RegJal_o)
+                .RegJal_o(RegJal_o),
+                .isJr(isJr)
 	    );
 
 ALU_Ctrl AC(
         .funct_i(instr[5:0]),   
         .ALUOp_i(ALU_op),   
-        .ALUCtrl_o(ALUCtrl_o) ,
-        .isJr(isJr)
+        .ALUCtrl_o(ALUCtrl_o) 
         );
 	
 Sign_Extend SE(
@@ -166,15 +166,15 @@ MUX_2to1 #(.size(32)) Mux_PC_Source(
         .data_o(pc_Mux1)
         );	
 MUX_2to1 #(.size(32)) Mux_Jump(
-        .data0_i(pc_Mux1),
-        .data1_i({pc_Addro[31:28], jump_sh}),
-        .select_i(Jump_o),
+        .data0_i({pc_Addro[31:28], jump_sh}),
+        .data1_i(RSdata_o),
+        .select_i(isJr),
         .data_o(pc_Mux2)
         );
 MUX_2to1 #(.size(32)) MUX_isJr(
-        .data0_i(pc_Mux2),
-        .data1_i(RSdata_o),
-        .select_i(isJr),
+        .data0_i(pc_Mux1),
+        .data1_i(pc_Mux2),
+        .select_i(Jump_o),
         .data_o(pc_Addri)
         );
 Data_Memory Data_Memory(
