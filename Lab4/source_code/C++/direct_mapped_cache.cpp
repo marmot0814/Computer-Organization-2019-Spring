@@ -29,12 +29,12 @@ void simulate(int cache_size, int block_size)
 	int line = cache_size >> (offset_bit);
 
 	cache_content *cache = new cache_content[line];
-	
+
     cout << "cache line: " << line << endl;
 
 	for(int j = 0; j < line; j++)
 		cache[j].v = false;
-	
+
     FILE *fp = fopen("test.txt", "r");  // read file
 	
 	while(fscanf(fp, "%x", &x) != EOF)
@@ -44,7 +44,7 @@ void simulate(int cache_size, int block_size)
 		tag = x >> (index_bit + offset_bit);
 		if(cache[index].v && cache[index].tag == tag)
 			cache[index].v = true;    // hit
-		else
+        else
         {
 			cache[index].v = true;  // miss
 			cache[index].tag = tag;
