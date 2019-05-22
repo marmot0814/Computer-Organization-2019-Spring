@@ -19,6 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 `define CYCLE_TIME 50           
+`include "Simple_Single_CPU.v"
 
 module TestBench;
     reg Clk, Start;
