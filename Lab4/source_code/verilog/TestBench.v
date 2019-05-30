@@ -13,8 +13,8 @@ module TestBench;
 initial	begin
 		CLK	=	0;
 		START	=	0;
-		handle1	=	$fopen("ICACHE.txt");
-		handle2	=	$fopen("DCACHE.txt");
+		handle1	=	$fopen("../../ICACHE.txt");
+		handle2	=	$fopen("../../DCACHE.txt");
 
 		#(`CYCLE_TIME)
 
@@ -34,7 +34,7 @@ always@(posedge	CLK) begin
 	$fdisplay(handle1, "%h\n", cpu.IM.addr_i);
  else;
 
- if(cpu.DM.MemWrite_i==1'b1	|| cpu.DM.MemRead_i==1'b1)
+ if(cpu.DM.MemWrite_i	|| cpu.DM.MemRead_i)
 	$fdisplay(handle2, "%h\n", cpu.DM.addr_i);
  else;
 
