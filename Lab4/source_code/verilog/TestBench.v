@@ -34,7 +34,7 @@ always@(posedge	CLK) begin
 	$fdisplay(handle1, "%h\n", cpu.IM.addr_i);
  else;
 
- if(cpu.DM.MemWrite_i	|| cpu.DM.MemRead_i)
+ if(cpu.DM.MemWrite_i==1'b1	|| cpu.DM.MemRead_i==1'b1)
 	$fdisplay(handle2, "%h\n", cpu.DM.addr_i);
  else;
 

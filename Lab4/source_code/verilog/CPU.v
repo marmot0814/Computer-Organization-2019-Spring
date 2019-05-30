@@ -8,14 +8,14 @@
 //----------------------------------------------
 //Description: 
 //--------------------------------------------------------------------------------
-module Simple_Single_CPU(
+module CPU(
         clk_i,
-		rst_i
+		start_i
 		);
 		
 //I/O port
 input         clk_i;
-input         rst_i;
+input         start_i;
 
 //Internal Signles
 
@@ -59,18 +59,18 @@ assign jump_sh = instr[25:0] << 2;
 //Greate componentes
 ProgramCounter PC(
         .clk_i(clk_i),      
-	    .rst_i (rst_i),     
+	    .rst_i (start_i),     
 	    .pc_in_i(pc_Addri) ,   
 	    .pc_out_o(pc_Addro) 
 	    );
 	
-Adder Adder1(
+Adder A1(
         .src1_i(pc_Addro),     
 	    .src2_i(32'b100),     
 	    .sum_o(pc_Addr4)    
 	    );
 	
-Instr_Memory IM(
+Instruction_Memory IM(
         .addr_i(pc_Addro),  
 	    .instr_o(instr)    
 	    );
@@ -90,7 +90,7 @@ MUX_2to1 #(.size(5)) Mux_isJal(
 		
 Reg_File RF(
         .clk_i(clk_i),      
-	    .rst_i(rst_i) ,     
+	    .rst_i(start_i) ,     
         .RSaddr_i(instr[25:21]) ,  
         .RTaddr_i(instr[20:16]) ,  
         .RDaddr_i(data_M2) ,  
@@ -148,7 +148,7 @@ ALU ALU(
                 .sham(instr[10:6])
 	    );
 		
-Adder Adder2(
+Adder A2(
         .src1_i(pc_Addr4),     
 	    .src2_i(data_SH),     
 	    .sum_o(sum_2)      
@@ -177,7 +177,7 @@ MUX_2to1 #(.size(32)) MUX_isJr(
         .select_i(Jump_o),
         .data_o(pc_Addri)
         );
-Data_Memory Data_Memory(
+Data_Memory DM(
         .clk_i(clk_i),
         .addr_i(result_o),
         .data_i(RTdata_o),
