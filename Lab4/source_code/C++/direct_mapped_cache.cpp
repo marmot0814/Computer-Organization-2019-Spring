@@ -21,7 +21,7 @@ double log2(double n)
 }
 
 
-void simulate(int cache_size, int block_size)
+double simulate(int cache_size, int block_size)
 {
 	unsigned int tag, index, x;
 
@@ -56,13 +56,21 @@ void simulate(int cache_size, int block_size)
 		}
 	}
 	fclose(fp);
-    cout << fixed << setprecision(3) << 100.0 * miss / total << '%';
-
 	delete [] cache;
+    return 100.0 * miss / total;
 }
 	
 int main()
 {
 	// Let us simulate 4KB cache with 16B blocks
-	simulate(4 * K, 16);
+    cout << "      ";
+    for (int block_size = 16 ; block_size <= 256 ; block_size <<= 1)
+        cout << setw(8) << block_size;
+    cout << "\n-----------------------------------------------\n";
+    for (int cache_size = 4 ; cache_size <= 256 ; cache_size <<= 2) {
+        cout << setw(3) << cache_size << "K: ";
+        for (int block_size = 16 ; block_size <= 256 ; block_size <<= 1)
+            cout << setw(8) << fixed << setprecision(3) << simulate(cache_size * K, block_size);
+        cout << '\n';
+    }
 }
