@@ -19,7 +19,7 @@ const int INF = 0x3f3f3f3f;
 
 double simulate(int cache_size, int way) {
     int offset_bit = __lg(block_size);
-    int line = cache_size >> offset_bit;
+    int line = cache_size / block_size;
     int index_bit  = __lg(line) - __lg(way);
     
     cache_content *cache = new cache_content[line];
@@ -31,24 +31,23 @@ double simulate(int cache_size, int way) {
 
     unsigned int total = 0, miss = 0;
     int x; while (~fscanf(fp, "%x", &x)) {
-        total++;
-        x >>= offset_bit;
+        total++; x >>= offset_bit;
         unsigned int index = x & ((1 << index_bit) - 1);
         unsigned int tag   = x >> index_bit;
 
         bool hit = false;
         for (int i = 0 ; i < way ; i++) {
-            if (~cache[index + i].stamp && cache[index + i].tag == tag)
+            if (~cache[index * way + i].stamp && cache[index * way + i].tag == tag)
                 hit = true;
         }
         if (hit) continue;
         miss++;
         int target_i = -1, minV = INF;
         for (int i = 0 ; i < way ; i++)
-            if (cache[index + i].stamp < minV)
-                minV = cache[index + i].stamp, target_i = i;
-        cache[index + target_i].stamp = total;
-        cache[index + target_i].tag = tag;
+            if (cache[index * way + i].stamp < minV)
+                minV = cache[index * way + i].stamp, target_i = i;
+        cache[index * way + target_i].stamp = total;
+        cache[index * way + target_i].tag = tag;
     }
     fclose(fp);
     delete []cache;
