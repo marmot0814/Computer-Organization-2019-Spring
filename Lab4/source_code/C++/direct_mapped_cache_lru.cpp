@@ -51,6 +51,7 @@ double simulate(int cache_size, int way) {
         cache[index + target_i].tag = tag;
     }
     fclose(fp);
+    delete []cache;
     return 100.0 * miss / total;
 }
 
