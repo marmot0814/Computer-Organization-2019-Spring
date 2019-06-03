@@ -21,7 +21,7 @@ double log2(double n)
 }
 
 
-double simulate(int cache_size, int block_size)
+double simulate(int cache_size, int block_size, string filename)
 {
 	unsigned int tag, index, x;
 
@@ -36,7 +36,7 @@ double simulate(int cache_size, int block_size)
 	for(int j = 0; j < line; j++)
 		cache[j].v = false;
 
-    FILE *fp = fopen("../../test/LU.txt", "r");  // read file
+    FILE *fp = fopen(("../../test/" + filename).c_str(), "r");  // read file
 
     unsigned int total = 0, miss = 0;
 	
@@ -59,10 +59,9 @@ double simulate(int cache_size, int block_size)
 	delete [] cache;
     return 100.0 * miss / total;
 }
-	
-int main()
-{
-	// Let us simulate 4KB cache with 16B blocks
+
+void runTest(string filename) {
+    cout << "Input file: " << filename << '\n';
     cout << "      ";
     for (int block_size = 16 ; block_size <= 256 ; block_size <<= 1)
         cout << setw(8) << block_size;
@@ -70,7 +69,17 @@ int main()
     for (int cache_size = 4 ; cache_size <= 256 ; cache_size <<= 2) {
         cout << setw(3) << cache_size << "K: ";
         for (int block_size = 16 ; block_size <= 256 ; block_size <<= 1)
-            cout << setw(8) << fixed << setprecision(3) << simulate(cache_size * K, block_size);
+            cout << setw(8) << fixed << setprecision(3) << simulate(cache_size * K, block_size, filename);
         cout << '\n';
     }
+    cout << '\n';
+}
+
+int main()
+{
+    cout << "direct_mapped_cache.cpp, cache_size to block_size\n\n";
+    runTest("ICACHE.txt");
+    runTest("DCACHE.txt");
+    runTest("LU.txt");
+    runTest("RADIX.txt");
 }
