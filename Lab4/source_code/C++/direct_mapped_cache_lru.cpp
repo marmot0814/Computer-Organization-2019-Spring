@@ -38,7 +38,8 @@ double simulate(int cache_size, int way, string filename) {
         bool hit = false;
         for (int i = 0 ; i < way ; i++) {
             if (~cache[index * way + i].stamp && cache[index * way + i].tag == tag)
-                hit = true;
+                hit = true, cache[index * way + i].stamp = total;
+            if (hit) break;
         }
         if (hit) continue;
         miss++;
