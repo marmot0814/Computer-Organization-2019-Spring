@@ -55,6 +55,18 @@ double simulate(int cache_size, int way, string filename) {
     return 100.0 * miss / total;
 }
 
+
+int calculate_total_bit(int cache_size, int way) {
+    int offset_bit = __lg(block_size);
+    int line = cache_size / block_size;
+    int index_bit  = __lg(line) - __lg(way);
+    int tag_bit = 32 - offset_bit - index_bit; 
+    
+    int total_bit = (tag_bit + block_size * 8 + 1) * line;
+    
+    return total_bit;   
+
+}
 void runTest(string filename) {
     cout << "Input file: " << filename << '\n';
     cout << "      ";
@@ -68,12 +80,31 @@ void runTest(string filename) {
         cout << '\n';
     }
     cout << '\n';
-}
 
+    
+}
+void run_totalbit()
+{
+    cout << "Total bit: " << '\n';
+    cout << "      ";
+
+    for (int way = 1 ; way <= 8 ; way <<= 1)
+        cout << setw(4) << way << "-way";
+    cout << "\n---------------------------------------\n";
+
+    for (int cache_size = 1; cache_size <= 32 ; cache_size <<= 1) {
+        cout << setw(3) << cache_size << "K: ";
+
+        for (int way = 1; way <= 8 ; way <<= 1)
+            cout << setw(8) << calculate_total_bit(cache_size * K, way);
+        cout << '\n';
+    }
+}
 int main() {
     cout << "direct_apped_cache_lru.cpp, cache_size to n-way\n\n";
     runTest("ICACHE.txt");
     runTest("DCACHE.txt");
     runTest("LU.txt");
     runTest("RADIX.txt");
+    run_totalbit();
 }
