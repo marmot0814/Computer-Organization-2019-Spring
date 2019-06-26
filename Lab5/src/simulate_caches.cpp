@@ -28,9 +28,11 @@ void input(ifstream &in) {
 void matrix_output(ofstream &out, Matrix &M) {
     int r = M.size();
     int c = r ? M[0].size() : 0;
-    for (int i = 0 ; i < r ; i++)
+    for (int i = 0 ; i < r ; i++) {
         for (int j = 0 ; j < c ; j++)
-            out << M[i][j] << " \n"[j + 1 == c];
+            out << M[i][j] << ' ';
+        out << '\n';
+    }
 }
 LL matrix_index(LL addr, int i, int j, int r, int c) {
     return addr + i * c * 4 + j * 4;
@@ -87,13 +89,13 @@ int A_structure() {
     int total = addrs.size();
     int miss  = simulate(1 << 9, 8 * 4, 8, addrs).size();
     int hit   = total - miss;
-    return miss * 836 + hit * 4;
+    return miss * (1 + 8 * (1 + 100 + 1 + 2) + 2 + 1) + hit * (1 + 2 + 1);
 }
 int B_structure() {
     int total = addrs.size();
     int miss  = simulate(1 << 9, 8 * 4, 8, addrs).size();
     int hit   = total - miss;
-    return miss * 108 + hit * 4;
+    return miss * (1 + 8 * (1 + 100 + 1 + 2) / 8 + 2 + 1) + hit * (1 + 2 + 1);
 }
 int C_structure() {
     vector<LL> L1_miss_addrs = simulate(1 << 7, 4 * 4, 8, addrs);
@@ -102,7 +104,7 @@ int C_structure() {
     int L1_miss = L1_miss_addrs.size() - L2_miss;
     int total   = addrs.size();
     int hit     = total - L1_miss_addrs.size();
-    return hit * 3 + L1_miss * 55 + L2_miss * 3639;
+    return L1_miss * (1 + 4 * (1 + 10 + 1 + 1) + 1 + 1) + L2_miss * (1 + 32 * (1 + 100 + 1 + 10) + 4 * (1 + 10 + 1 + 1) + 1 + 1) + hit * (1 + 1 + 1);
 }
 int main(int argc, char **argv) {
     if (argc != 3) {
