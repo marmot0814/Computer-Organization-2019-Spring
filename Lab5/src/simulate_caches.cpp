@@ -65,7 +65,7 @@ vector<LL> simulate(int cache_size, int block_size, int way, vector<LL> &addrs) 
         int tag   = v >> (index_bit + offset_bit);
         bool is_miss = true;
         for (auto &item : cache[index]) {
-            if (~item.v && item.tag != tag)
+            if (!~item.v || item.tag != tag)
                 continue;
             is_miss = false;
             item.v = total;
@@ -102,12 +102,6 @@ int C_structure() {
     int L1_miss = L1_miss_addrs.size() - L2_miss;
     int total   = addrs.size();
     int hit     = total - L1_miss_addrs.size();
-    for (auto &v : addrs)
-        cout << v << '\n';
-    cout << total << '\n';
-    cout << hit << '\n';
-    cout << L1_miss << '\n';
-    cout << L2_miss << '\n';
     return hit * 3 + L1_miss * 55 + L2_miss * 3639;
 }
 int main(int argc, char **argv) {
